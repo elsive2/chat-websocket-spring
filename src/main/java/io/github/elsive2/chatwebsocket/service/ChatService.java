@@ -33,7 +33,9 @@ public class ChatService {
         Chat chat = chatRepository.findByIdRequired(payload.getChatId());
         User user = userRepository.findByIdRequired(payload.getUserId());
 
-        Message message = new Message(user, chat, payload.getMessage(), chat.incrAndGetMessageChatN());
+        int messageChatN = chatRepository.nextMessageChatN(payload.getChatId());
+
+        Message message = new Message(user, chat, payload.getMessage(), messageChatN);
 
         log.debug("Saving message - {}", message);
         messageRepository.save(message);

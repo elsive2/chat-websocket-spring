@@ -7,6 +7,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
 
+import java.time.Instant;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -15,7 +16,7 @@ import java.util.UUID;
 @Table(name = "message")
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @ToString(exclude = {"user", "chat"})
-public class Message extends BaseEntity {
+public class Message {
     @Getter
     @GeneratedValue(strategy = GenerationType.UUID)
     @Id
@@ -47,6 +48,9 @@ public class Message extends BaseEntity {
     @Column(name = "version", nullable = false)
     private Integer version;
 
+    @Column(name = "created_at", nullable = false, updatable = false)
+    private Instant createdAt;
+
     protected Message() {
     }
 
@@ -55,5 +59,10 @@ public class Message extends BaseEntity {
         this.chat = Objects.requireNonNull(chat);
         this.payload = Objects.requireNonNull(payload);
         this.messageChatN = messageChatN;
+    }
+
+    @PrePersist
+    protected void onCreate() {
+        this.createdAt = Instant.now();
     }
 }

@@ -5,6 +5,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
 
+import java.time.Instant;
 import java.util.UUID;
 
 @Entity
@@ -12,7 +13,7 @@ import java.util.UUID;
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @ToString
 @Getter
-public class Chat extends BaseEntity {
+public class Chat {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -22,9 +23,13 @@ public class Chat extends BaseEntity {
     @Column(name = "message_chat_n", nullable = false)
     private Integer messageChatN = 0;
 
+    @Column(name = "created_at", nullable = false, updatable = false)
+    private Instant createdAt;
+
     protected Chat() {}
 
-    public int incrAndGetMessageChatN() {
-        return ++this.messageChatN;
+    @PrePersist
+    protected void onCreate() {
+        this.createdAt = Instant.now();
     }
 }
