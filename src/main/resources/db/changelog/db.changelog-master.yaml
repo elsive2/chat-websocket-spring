@@ -2,3 +2,12 @@ databaseChangeLog:
   - include:
       file: changes/2026-01-07-create-message-table.yaml
       relativeToChangelogFile: true
+  - include:
+      file: changes/2026-01-07-create-app-user-table.yaml
+      relativeToChangelogFile: true
+  - include:
+      file: changes/2026-01-07-create-chat-table.yaml
+      relativeToChangelogFile: true
+  - include:
+      file: changes/2026-01-07-message-fk.yaml
+      relativeToChangelogFile: true
