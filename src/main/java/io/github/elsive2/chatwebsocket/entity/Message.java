@@ -9,6 +9,8 @@ import java.time.Instant;
 import java.util.Objects;
 import java.util.UUID;
 
+// TODO: CREATE UNIQUE INDEX message_ux1
+//    ON message (chat_id ASC, message_chat_n DESC, version DESC
 @Entity
 @Table(name = "message")
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
