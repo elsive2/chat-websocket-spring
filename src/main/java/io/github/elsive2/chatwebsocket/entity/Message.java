@@ -12,10 +12,18 @@ import java.time.Instant;
 import java.util.Objects;
 import java.util.UUID;
 
-// TODO: CREATE UNIQUE INDEX message_ux1 ON message (chat_id ASC, message_chat_n DESC, version DESC
 @Getter
 @Entity
-@Table(name = "message")
+@Table(
+    name = "message",
+    indexes = {
+        @Index(
+            name = "message_ux1",
+            columnList = "chat_id, message_chat_n, version",
+            unique = true
+        )
+    }
+)
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @ToString(exclude = {"user", "chat"})
 public class Message {
