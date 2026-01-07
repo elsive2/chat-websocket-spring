@@ -8,6 +8,8 @@ public record MessageEvent(
         UUID messageId,
         UUID chatId,
         String payload,
+        int messageChatN,
+        int version,
         MessageSentDto.Action action
 ) {
 }

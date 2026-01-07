@@ -19,7 +19,13 @@ public class WebSocketService {
 
     @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT, fallbackExecution = true)
     public void onMessageEvent(final MessageEvent event) {
-        MessageSentDto msgToSend = new MessageSentDto(event.messageId(), event.payload(), event.action());
+        MessageSentDto msgToSend = new MessageSentDto(
+                event.messageId(),
+                event.payload(),
+                event.messageChatN(),
+                event.version(),
+                event.action()
+        );
 
         log.debug("Publish message to subs - {}", msgToSend);
         messagingTemplate.convertAndSendToUser(

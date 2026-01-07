@@ -19,7 +19,7 @@ import java.util.UUID;
     indexes = {
         @Index(
             name = "message_ux1",
-            columnList = "chat_id, message_chat_n, version",
+            columnList = "chat_id, message_chat_n desc, version desc",
             unique = true
         )
     }

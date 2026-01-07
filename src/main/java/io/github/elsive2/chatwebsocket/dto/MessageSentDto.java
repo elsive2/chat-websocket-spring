@@ -10,6 +10,8 @@ import java.util.UUID;
 public class MessageSentDto {
     private UUID messageId;
     private String message;
+    private int messageChatN;
+    private int version;
     private Action action;
 
     public enum Action {

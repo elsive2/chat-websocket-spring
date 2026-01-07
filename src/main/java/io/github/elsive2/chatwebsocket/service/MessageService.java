@@ -37,11 +37,14 @@ public class MessageService {
         }
 
         message.setPayload(messageUpdateDto.getMessage());
+        messageRepository.saveAndFlush(message);
 
         eventPublisher.publishEvent(new MessageEvent(
                 message.getId(),
                 message.getChat().getId(),
                 message.getPayload(),
+                message.getMessageChatN(),
+                message.getVersion(),
                 MessageSentDto.Action.UPDATED
         ));
 

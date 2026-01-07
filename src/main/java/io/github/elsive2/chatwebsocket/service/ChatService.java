@@ -40,12 +40,14 @@ public class ChatService {
         Message message = new Message(user, chat, payload.getMessage(), messageChatN);
 
         log.debug("Saving message - {}", message);
-        messageRepository.save(message);
+        messageRepository.saveAndFlush(message);
 
         eventPublisher.publishEvent(new MessageEvent(
                 message.getId(),
                 chat.getId(),
                 message.getPayload(),
+                message.getMessageChatN(),
+                message.getVersion(),
                 MessageSentDto.Action.CREATED
         ));
     }
