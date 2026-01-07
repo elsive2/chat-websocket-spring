@@ -1,30 +1,20 @@
 package io.github.elsive2.chatwebsocket.controller;
 
 import io.github.elsive2.chatwebsocket.dto.ChatMessageDto;
+import io.github.elsive2.chatwebsocket.service.ChatService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
-import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 
-@Slf4j
 @RequiredArgsConstructor
 @Controller
-public class ChatController {
-    private final SimpMessagingTemplate messagingTemplate;
+public final class ChatController {
+    private final ChatService chatService;
 
     @MessageMapping("/chat")
-    public void processMessage(@Payload ChatMessageDto chatMessage) {
-        log.info("Got message - {}", chatMessage);
-
-        // TODO: Создаем сообщение в базе
-
-        messagingTemplate.convertAndSendToUser(
-                chatMessage.getChatId().toString(),
-                "/queue/messages",
-                chatMessage
-
-        );
+    public void processMessage(@Payload @Valid final ChatMessageDto payload) {
+        chatService.processMessage(payload);
     }
 }

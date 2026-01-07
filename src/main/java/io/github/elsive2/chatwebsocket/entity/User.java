@@ -5,7 +5,6 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
 
-import java.time.Instant;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -15,7 +14,7 @@ import java.util.UUID;
 @Getter
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @ToString
-public class User {
+public class User extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -25,17 +24,9 @@ public class User {
     @Column(name = "username", nullable = false, unique = true, updatable = false)
     private String username;
 
-    @Column(name = "created_at", nullable = false, updatable = false)
-    private Instant createdAt;
-
     protected User() {}
 
     public User(String username) {
         this.username = Objects.requireNonNull(username);
-    }
-
-    @PrePersist
-    void onCreate() {
-        this.createdAt = Instant.now();
     }
 }
