@@ -1,0 +1,62 @@
+databaseChangeLog:
+  - changeSet:
+      id: 2026-01-07-create-message-table
+      author: maxim
+      changes:
+        - createTable:
+            tableName: message
+            columns:
+              - column:
+                  name: id
+                  type: uuid
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+
+              - column:
+                  name: user_id
+                  type: uuid
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: chat_id
+                  type: uuid
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: message_chat_n
+                  type: int
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: version
+                  type: int
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: payload
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+
+  - changeSet:
+      id: 2026-01-07-message-ux1
+      author: maxim
+      changes:
+        - createIndex:
+            indexName: message_ux1
+            tableName: message
+            unique: true
+            columns:
+              - column:
+                  name: chat_id
+              - column:
+                  name: message_chat_n
+                  descending: true
+              - column:
+                  name: version
+                  descending: true

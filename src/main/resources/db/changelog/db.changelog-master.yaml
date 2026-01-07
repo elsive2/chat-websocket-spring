@@ -1,0 +1,4 @@
+databaseChangeLog:
+  - include:
+      file: changes/2026-01-07-create-message-table.yaml
+      relativeToChangelogFile: true
