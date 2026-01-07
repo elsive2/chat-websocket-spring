@@ -9,7 +9,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.UUID;
 
 public interface UserRepository extends JpaRepository<User, UUID> {
-    Logger log = LoggerFactory.getLogger(ChatRepository.class);
+    Logger log = LoggerFactory.getLogger(UserRepository.class);
 
     default User findByIdRequired(final UUID id) {
         log.debug("Finding user by id {}", id);

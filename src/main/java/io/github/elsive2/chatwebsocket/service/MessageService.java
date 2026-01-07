@@ -4,10 +4,13 @@ import io.github.elsive2.chatwebsocket.dto.MessageSentDto;
 import io.github.elsive2.chatwebsocket.dto.request.MessageUpdateDto;
 import io.github.elsive2.chatwebsocket.dto.response.MessageDto;
 import io.github.elsive2.chatwebsocket.entity.Message;
+import io.github.elsive2.chatwebsocket.event.MessageEvent;
+import io.github.elsive2.chatwebsocket.exception.ServiceException;
 import io.github.elsive2.chatwebsocket.repostiory.MessageRepository;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -23,7 +26,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class MessageService {
     private final MessageRepository messageRepository;
-    private final WebSocketService webSocketService;
+    private final ApplicationEventPublisher eventPublisher;
 
     @Transactional
     public MessageDto update(UUID id, @Valid MessageUpdateDto messageUpdateDto) {
@@ -35,7 +38,12 @@ public class MessageService {
 
         message.setPayload(messageUpdateDto.getMessage());
 
-        webSocketService.sendChatMessage(message, MessageSentDto.Action.UPDATED);
+        eventPublisher.publishEvent(new MessageEvent(
+                message.getId(),
+                message.getChat().getId(),
+                message.getPayload(),
+                MessageSentDto.Action.UPDATED
+        ));
 
         return MessageDto.fromEntity(message);
     }
@@ -47,6 +55,9 @@ public class MessageService {
             Integer after,
             int limit
     ) {
+        if (after != null && chatId == null) {
+            throw new ServiceException("Cursor pagination requires chatId");
+        }
         Pageable pageable = PageRequest.of(0, limit);
 
         List<Message> messages = messageRepository.findNextPage(

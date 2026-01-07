@@ -11,3 +11,6 @@ databaseChangeLog:
   - include:
       file: changes/2026-01-07-message-fk.yaml
       relativeToChangelogFile: true
+  - include:
+      file: changes/2026-01-07-add-index-for-cursor-based-pagination.yaml
+      relativeToChangelogFile: true

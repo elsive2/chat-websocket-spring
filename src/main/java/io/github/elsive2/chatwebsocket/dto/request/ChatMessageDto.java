@@ -18,6 +18,6 @@ public final class ChatMessageDto {
     private UUID userId;
 
     @NotBlank
-    @Size(min = 1, max = 4000)
+    @Size(min = 1, max = 255)
     private String message;
 }
