@@ -7,6 +7,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @RequiredArgsConstructor
@@ -22,5 +23,24 @@ public class MessageController {
             @RequestBody @Valid final MessageUpdateDto messageUpdateDto
     ) {
         return messageService.update(id, messageUpdateDto);
+    }
+
+
+    /**
+     * Cursor-based pagination
+     */
+    @GetMapping
+    public List<MessageDto> getMessages(
+            @RequestParam(required = false) UUID userId,
+            @RequestParam(required = false) UUID chatId,
+            @RequestParam(required = false) Integer after,
+            @RequestParam(defaultValue = "50") int limit
+    ) {
+        return messageService.getMessages(
+                userId,
+                chatId,
+                after,
+                limit
+        );
     }
 }

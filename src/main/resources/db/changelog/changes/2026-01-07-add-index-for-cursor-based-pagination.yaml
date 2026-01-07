@@ -1,0 +1,40 @@
+databaseChangeLog:
+  - changeSet:
+      id: 2026-01-07-add-index-for-cursor-based-pagination
+      author: maxim
+      comment: >
+        Indexes for efficient cursor-based pagination and filtering
+        by chat, user or both
+
+      changes:
+        # Base cursor index for chat history
+        - createIndex:
+            tableName: message
+            indexName: idx_message_chat_cursor
+            columns:
+              - column:
+                  name: chat_id
+              - column:
+                  name: message_chat_n
+
+        # Composite index for chat + user filtering
+        - createIndex:
+            tableName: message
+            indexName: idx_message_chat_user_cursor
+            columns:
+              - column:
+                  name: chat_id
+              - column:
+                  name: user_id
+              - column:
+                  name: message_chat_n
+
+        # User-based cursor index
+        - createIndex:
+            tableName: message
+            indexName: idx_message_user_cursor
+            columns:
+              - column:
+                  name: user_id
+              - column:
+                  name: message_chat_n

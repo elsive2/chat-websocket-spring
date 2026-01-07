@@ -5,13 +5,16 @@ import io.github.elsive2.chatwebsocket.dto.request.MessageUpdateDto;
 import io.github.elsive2.chatwebsocket.dto.response.MessageDto;
 import io.github.elsive2.chatwebsocket.entity.Message;
 import io.github.elsive2.chatwebsocket.repostiory.MessageRepository;
-import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.OptimisticLockingFailureException;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -34,6 +37,27 @@ public class MessageService {
 
         webSocketService.sendChatMessage(message, MessageSentDto.Action.UPDATED);
 
-        return new MessageDto(message.getId(), message.getPayload(), message.getVersion());
+        return MessageDto.fromEntity(message);
+    }
+
+    @Transactional(readOnly = true)
+    public List<MessageDto> getMessages(
+            UUID userId,
+            UUID chatId,
+            Integer after,
+            int limit
+    ) {
+        Pageable pageable = PageRequest.of(0, limit);
+
+        List<Message> messages = messageRepository.findNextPage(
+                userId,
+                chatId,
+                after,
+                pageable
+        );
+
+        return messages.stream()
+                .map(MessageDto::fromEntity)
+                .toList();
     }
 }
