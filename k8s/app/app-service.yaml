@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: chat-websocket
+spec:
+  type: ClusterIP
+  selector:
+    app: chat-websocket
+  ports:
+    - name: http
+      port: 8080
+      targetPort: http

@@ -1,0 +1,30 @@
+databaseChangeLog:
+  - changeSet:
+      id: 2026-01-07-init-chat-user
+      author: maxim
+      changes:
+        - insert:
+            tableName: app_user
+            columns:
+              - column:
+                  name: id
+                  value: 9f113034-ac90-4941-8845-72b76b86641b
+              - column:
+                  name: username
+                  value: system
+              - column:
+                  name: created_at
+                  valueComputed: now()
+
+        - insert:
+            tableName: chat
+            columns:
+              - column:
+                  name: id
+                  value: 3c9adbe2-ae38-49e3-bb4e-2a39c0c44ea8
+              - column:
+                  name: message_chat_n
+                  valueNumeric: 0
+              - column:
+                  name: created_at
+                  valueComputed: now()

@@ -1,4 +1,4 @@
-package io.github.elsive2.chatwebsocket.controller;
+package io.github.elsive2.chatwebsocket.handler.http;
 
 import io.github.elsive2.chatwebsocket.dto.request.MessageUpdateDto;
 import io.github.elsive2.chatwebsocket.dto.response.MessageDto;

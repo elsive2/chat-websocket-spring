@@ -1,0 +1,13 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: chat-websocket
+resources:
+  - namespace.yaml
+  - postgres/postgres-configmap.yaml
+  - postgres/postgres-secret.yaml
+  - postgres/postgres-service.yaml
+  - postgres/postgres-statefulset.yaml
+  - app/app-configmap.yaml
+  - app/app-secret.yaml
+  - app/app-service.yaml
+  - app/app-deployment.yaml

@@ -5,7 +5,6 @@ import io.github.elsive2.chatwebsocket.exception.ChatNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -28,6 +27,5 @@ public interface ChatRepository extends JpaRepository<Chat, UUID> {
             """,
             nativeQuery = true
     )
-    @Modifying
     Integer nextMessageChatN(@Param("chatId") UUID chatId);
 }

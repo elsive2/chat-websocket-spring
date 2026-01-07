@@ -1,4 +1,16 @@
 services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile.jvm
+    depends_on:
+      - db
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/mydatabase
+      SPRING_DATASOURCE_USERNAME: myuser
+      SPRING_DATASOURCE_PASSWORD: mypassword
+    ports:
+      - '8080:8080'
   db:
     image: postgres:18
     restart: unless-stopped
@@ -11,4 +23,3 @@ services:
       - '5432:5432'
     volumes:
       - ./docker/db_data:/var/lib/postgresql/data
-
