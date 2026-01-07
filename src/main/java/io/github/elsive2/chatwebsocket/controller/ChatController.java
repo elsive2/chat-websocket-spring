@@ -1,6 +1,6 @@
 package io.github.elsive2.chatwebsocket.controller;
 
-import io.github.elsive2.chatwebsocket.dto.ChatMessageDto;
+import io.github.elsive2.chatwebsocket.dto.request.ChatMessageDto;
 import io.github.elsive2.chatwebsocket.service.ChatService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -14,7 +14,7 @@ public final class ChatController {
     private final ChatService chatService;
 
     @MessageMapping("/chat")
-    public void processMessage(@Payload @Valid final ChatMessageDto payload) {
-        chatService.processMessage(payload);
+    public void sendMessage(@Payload @Valid final ChatMessageDto payload) {
+        chatService.sendMessage(payload);
     }
 }

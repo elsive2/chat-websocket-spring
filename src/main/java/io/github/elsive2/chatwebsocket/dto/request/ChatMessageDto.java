@@ -1,4 +1,4 @@
-package io.github.elsive2.chatwebsocket.dto;
+package io.github.elsive2.chatwebsocket.dto.request;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
